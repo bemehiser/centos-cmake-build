@@ -1,4 +1,4 @@
-FROM centos:centos7
+FROM centos:centos6
 
 RUN yum update -y
 RUN yum install -y \
@@ -14,7 +14,7 @@ RUN yum install -y \
 # Python 3
 RUN yum -y install yum-utils
 RUN yum -y groupinstall development
-RUN yum -y install 'https://centos7.iuscommunity.org/ius-release.rpm'
+RUN yum -y install 'https://centos6.iuscommunity.org/ius-release.rpm'
 RUN yum -y install \
     python36u \
     python36u-pip \
@@ -29,6 +29,9 @@ RUN mkdir -p /tmp/cmake && \
     bash cmake-3.9.1-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir && \
     popd && \
     rm -rf /tmp/cmake
+
+# CTest
+RUN yum -y install cxxtest
 
 RUN yum clean all
 
