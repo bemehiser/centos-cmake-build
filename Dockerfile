@@ -1,11 +1,11 @@
 FROM centos:centos7
 
 RUN yum update -y
+
 RUN yum install -y \
     gperf \
     golang \
     ruby \
-    gcc-g++ \
     libuuid-devel \
     libxml2-devel \
     wget \
@@ -30,8 +30,17 @@ RUN mkdir -p /tmp/cmake && \
     popd && \
     rm -rf /tmp/cmake
 
+# GCC
+RUN yum install -y \
+    centos-release-scl
+RUN yum install -y \
+    devtoolset-7-gcc*
+ENV PATH="/opt/rh/devtoolset-7/root/usr/bin:$PATH"
+RUN source scl_source enable devtoolset-7
+
 RUN yum clean all
 
 # Build directory
 RUN mkdir -p /src
 WORKDIR /src
+
